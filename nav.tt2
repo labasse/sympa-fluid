@@ -1,0 +1,83 @@
+<!-- $Id: nav.tt2 sl $ -->
+[% IF action == 'create_list_request' %]
+<!-- No choice
+<ul class='nav nav-tabs'>
+  <li class="active"><a href="#">[%|loc%]Copy an existing list.[%END%]</a></li>
+  <li class="active"><a href="#">[%|loc%]Create a list using a template[%END%]</a></li>
+</ul-->
+[% END %]
+
+[% IF action == 'serveradmin' or action == 'skinsedit' or action == 'edit_config' or action == 'get_pending_lists' or action == 'get_closed_lists'  or action == 'get_latest_lists' or action == 'get_inactive_lists' %]
+<ul class='nav nav-tabs'>
+  <li[% " class='active'" IF (subaction == "" or subaction == "m_lists") and action != "skinsedit" %]><a href="[% path_cgi %]/serveradmin/m_lists">[%|loc%]Lists[%END%]</a></li>
+  <li[% " class='active'" IF subaction == 'users' %]><a href="[% path_cgi %]/serveradmin/users">[%|loc%]Users[%END%]</a></li>
+  <li[% " class='active'" IF subaction == 'archives' %]><a href="[% path_cgi %]/serveradmin/archives">[%|loc%]Archives[%END%]</a></li>
+  <li[% " class='active'" IF subaction == 'logs' %]><a href="[% path_cgi %]/serveradmin/logs">[%|loc%]System log[%END%]</a></li>
+  <li[% " class='active'" IF subaction == 'templates' %]><a href="[% path_cgi %]/serveradmin/templates">[%|loc%]Templates[%END%]</a></li>
+  <li[% " class='active'" IF action == 'skinsedit' %]><a href="[% path_cgi %]/skinsedit">[%|loc%]Skins, CSS and colors[%END%]</a></li>
+  [% IF main_robot %]
+  <li[% " class='active'" IF subaction == 'vhosts' %]><a href="[% path_cgi %]/serveradmin/vhosts">[%|loc%]Virtual Robots[%END%]</a></li>
+  <li[% " class='active'" IF action == 'edit_config' %]><a href="[% path_cgi %]/edit_config">[%|loc%]Edit Robot Config[%END%]</a></li>
+  [% END %]
+  [% IF families -%]
+  <li[% " class='active'" IF subaction == 'families' %]><a href="[% path_cgi %]/serveradmin/families">[%|loc%]Families[%END%]</a></li>
+  [% END %]
+  <li[% " class='active'" IF subaction == 'translation' %]><a href="[% path_cgi %]/serveradmin/translation">[%|loc%]Translating Sympa[%END%]</a></li>
+  <li[% " class='active'" IF subaction == 'tracker' %]><a href="[% path_cgi %]/serveradmin/tracker">[%|loc%]Submitting a bug, a feature request[%END%]</a></li>
+</ul>
+[% END %]
+
+[% IF action == 'lists' %]
+[% letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','others' ] %]
+<ul class='nav nav-tabs'>
+[% FOREACH letter IN letters %]
+  <li><a class='[% "disabled" IF orderedlist.$letter.0 %]' href="#[%letter%]">[%IF letter == 'others'%][%|loc%]others[%END%][%ELSE%][%letter%][%END%]</a></li>
+[% END %]
+  <li><a href="[% path_cgi %]/lists" >[%|loc%]all[%END%]</a></li>
+</ul>
+[% END %]
+
+[% IF action == 'admin' || action_type == 'admin' || action == 'editfile' %]
+<ul class='nav nav-tabs'>
+  <li class="[% " class='active'" IF action == 'edit_list_request' %]"><a  href="[% path_cgi %]/edit_list_request/[% list %]">[%|loc%]Edit List Config[%END%]</a></li>
+  [% IF is_owner %]
+  <li[% " class='active'" IF action == 'editfile' %]><a  href="[% path_cgi %]/editfile/[% list %]">[%|loc%]Customizing[%END%]</a></li>
+  <li[% " class='active'" IF action == 'review' %]><a  href="[% path_cgi %]/review/[% list %]">[%|loc%]Manage Subscribers[%END%]</a></li>
+  [% END %]
+  [% IF conf.use_blacklist != 'none' %]
+  <li[% " class='active'" IF action == 'blacklist' %]><a  href="[% path_cgi %]/blacklist/[% list %]" >[%|loc%]Blacklist[%END%]</a></li>
+  [% END %]
+  [% IF is_archived %]
+  <li[% " class='active'" IF action == 'arc_manage' %]><a  href="[% path_cgi %]/arc_manage/[% list %]">[%|loc%]Manage Archives[%END%]</a></li>
+  [% END %]
+  [% IF is_owner %]
+  <li[% " class='active'" IF action == 'reviewbouncing' %]><a  href="[% path_cgi %]/reviewbouncing/[% list %]">[%|loc%]Bounces[%END%]</a></li>
+  [% END %]
+  [% IF is_priv || is_listmaster %]
+  <li[% " class='active'" IF action == 'viewlogs' %]><a  href="[% path_cgi %]/viewlogs/[% list %]" >[%|loc%]Logs[%END%]</a></li>
+  [% END %]
+</ul>
+
+  [% IF action == 'edit_list_request' %]
+<div class='navbar navbar-default' style='margin-top:.7em'>
+  <ul class='nav navbar-nav'>          
+    <li[% " class='active'" IF group == 'description' %]><a  href="[% path_cgi %]/edit_list_request/[% list %]/description" >[%|loc%]List definition[%END%]</a></li>
+    <li[% " class='active'" IF group == 'sending' %]><a href="[% path_cgi %]/edit_list_request/[% list %]/sending" >[%|loc%]Sending/receiving setup[%END%]</a></li>
+    <li[% " class='active'" IF group == 'command' %]><a href="[% path_cgi %]/edit_list_request/[% list %]/command" >[%|loc%]Privileges[%END%]</a></li>
+    <li[% " class='active'" IF group == 'archives' %]><a href="[% path_cgi %]/edit_list_request/[% list %]/archives" >[%|loc%]Archives[%END%]</a></li>
+    <li[% " class='active'" IF group == 'bounces' %]><a href="[% path_cgi %]/edit_list_request/[% list %]/bounces" >[%|loc%]Bounces[%END%]</a></li>
+    <li[% " class='active'" IF group == 'data_source' %]><a href="[% path_cgi %]/edit_list_request/[% list %]/data_source" >[%|loc%]Data sources setup[%END%]</a></li>
+    <li[% " class='active'" IF group == 'dkim' %]><a href="[% path_cgi %]/edit_list_request/[% list %]/dkim" >[%|loc%]DKIM[%END%]</a></li>
+    <li[% " class='active'" IF group == 'other' %]><a href="[% path_cgi %]/edit_list_request/[% list %]/other" >[%|loc%]Miscellaneous[%END%]</a></li>
+  </ul>
+</div>
+  [% END %]
+[% END %]
+
+[% IF action == 'compose_mail' %]
+<ul class='nav nav-tabs'>
+  <li[% " class='active'" IF subaction == '' %]><a href="[% path_cgi %]/compose_mail/[% list %]">[%|loc%]Send a message[%END%]</a></li>
+  <li[% " class='active'" IF subaction == 'html_news_letter' %]><a href="[% path_cgi %]/compose_mail/[% list %]/html_news_letter">[%|loc%]Send an html page[%END%]</a></li>
+</ul>
+[% END %]
+<!-- end nav.tt2 -->

@@ -1,0 +1,27 @@
+<!-- $Id: menu.tt2 sl $ TODO -->
+<ul class="nav navbar-nav" id="MainMenuLinks">
+[% IF may_create_list %]
+  <li[% " class='active'" IF action == 'create_list_request' %]><a href="[% path_cgi %]/create_list_request" >[%|loc%]Create list[%END%]</a></li>
+[% END %]
+[% IF is_listmaster %]
+  <li[% " class='active'" IF action == 'serveradmin' or action == 'skinsedit' or action == 'get_pending_lists'  or action == 'get_closed_lists'  or action == 'get_latest_lists'   or action == 'get_inactive_lists' or action == 'edit_config' %]><a href="[% path_cgi %]/serveradmin" >[%|loc%]Sympa admin[%END%]</a></li>
+[% END %]
+  <li[% " class='active'" IF action == 'lists' %]><a href="[% path_cgi %]/lists">[%|loc%]List of lists[%END%]</a></li>
+  <li[% " class='active'" IF action == 'home' %]><a href="[% path_cgi %]/home">[%|loc%]Home[%END%]</a></li>
+  <li[% " class='active'" IF action == 'help' %]><a href="[% path_cgi %]/help" >[%|loc%]Help[%END%]</a></li>
+[% IF  conf.main_menu_custom_button_1_title %]
+  <li><a [% IF conf.main_menu_custom_button_1_target %] target ="[% conf.main_menu_custom_button_1_target %]"[% END %] href="[% conf.main_menu_custom_button_1_url %]">[% conf.main_menu_custom_button_1_title %]</a></li>
+[%END%]
+[% IF  conf.main_menu_custom_button_2_title %]
+  <li><a [% IF conf.main_menu_custom_button_2_target %] target ="[% conf.main_menu_custom_button_2_target %]"[% END %] href="[% conf.main_menu_custom_button_2_url %]">[% conf.main_menu_custom_button_2_title %]</a></li>
+[%END%]
+[% IF conf.main_menu_custom_button_3_title %]
+  <li><a [% IF conf.main_menu_custom_button_3_target %] target ="[% conf.main_menu_custom_button_3_target %]"[% END %] href="[% conf.main_menu_custom_button_3_url %]">[% conf.main_menu_custom_button_3_title %]</a></li>
+[%END%]
+[% FOREACH alf IN conf.automatic_list_families.keys %]
+  [% IF session.is_family_owner.$alf %]
+  <li[% " class='active'" IF action == 'automatic_lists_request' && family.name == conf.automatic_list_families.$alf.name %]><a class="[% class %]" href="[% path_cgi %]/automatic_lists_request/[% conf.automatic_list_families.$alf.name %]" >[% conf.automatic_list_families.$alf.display %]</a></li>
+  [% END %]
+[% END %]
+</ul>
+<!-- end menu.tt2 -->        

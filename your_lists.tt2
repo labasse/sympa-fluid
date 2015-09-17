@@ -1,0 +1,27 @@
+<!-- $Id: your_lists.tt2 6184 2009-09-04 12:57:30Z david.verdin $ -->
+[% IF user.email %]
+<div class='panel panel-default'>
+  <div class='panel-heading'>
+  [% IF which_info %]
+    <a href="[% path_cgi %]/suspend_request">[%|loc%]Manage your subscriptions[%END%]</a>
+  </div>
+  <ul class='list-group'>
+  	[% FOREACH l = which_info %]
+  	<li class='list-group-item'>
+  	  <ul class='list-unstyled list-inline pull-right'>
+  	  	<li><a href="[% path_cgi %]/info/[% l.key %]" title="[%|loc%]Info[%END%]"><span class='label label-default'><span class='glyphicon glyphicon-eye-open'></a></span></span></li>
+      [% IF l.value.admin %]      
+        <li><a href="[% path_cgi %]/admin/[% l.key %]" title="[%|loc%]admin[%END%]"><span class='label label-default'><span class='glyphicon glyphicon-cog'></span></span></a></li>
+      [% END %]
+  	  </ul>
+  	  <strong>[% hidden_head %][% l.key %][% hidden_end %]</strong>[% ": " IF l.value.subject %][% l.value.subject %]  	  
+    </li>
+    [% END %]
+  </ul>
+  [% ELSE %]
+	[%|loc%]No mailing list available.[%END%]
+  </div>
+  [% END %]
+</div>
+[% END %]
+<!-- end login_menu.tt2 -->

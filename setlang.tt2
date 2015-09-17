@@ -1,0 +1,24 @@
+<!-- $Id: setlang.tt2 10064 2013-12-27 11:03:50Z sikeda $ -->
+[% IF languages.size > 1 %]
+<li class="dropdown" id="menuLogin">
+  <script>
+    function setlang_submit(lang) {
+      document.setlang_form.lang.value=lang;
+      document.setlang_form.submit();
+    }
+  </script>
+  <form action="[% path_cgi %]" method="post" name='setlang_form'>
+    <input type="hidden" name="action" value="set_lang"/>
+    <input type="hidden" name="previous_action" value="[% action %]"/>
+    <input type="hidden" name="previous_list" value="[% list %]"/>
+    <input type="hidden" name="lang" value=""/>
+  </form>
+  <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLogin" aria-label='[%|loc%]Language selection[% END %]'><span class='glyphicon glyphicon-globe hidden-xs' aria-hidden="true"></span><span class='visible-xs-inline'>[%|loc%]Language selection[% END %]</span><span class="caret"></span></a>
+  <ul class="dropdown-menu" role="menu">
+  [% FOREACH lang = languages %]
+    <li[% " class='active'" IF lang.value.selected %]><a href="javascript:setlang_submit('[% lang.key %]')" lang="[% lang.value.lang_tag %]" xml:lang="[% lang.value.lang_tag %]">[% lang.value.complete %]</a></li>
+  [% END %]
+  </ul>
+</li>
+[% END %]
+<!-- end setlang.tt2 -->

@@ -1,0 +1,55 @@
+<!-- $Id: list_menu.tt2 6184 2009-09-04 12:57:30Z david.verdin $ -->
+<div class='list-group'>
+[% PROCESS 'list_panel.tt2' %]
+
+[% IF (is_subscriber == '1') %]
+  [% IF may_suboptions == '1' %]    
+  <a class='list-group-item[% " active" IF action == "suboptions" %]' href="[% path_cgi %]/suboptions/[% list %]">[%|loc%]Subscriber Options[%END%]</a></li>
+  [% END %]
+  [% IF may_signoff == '1' %] 
+  <a class='list-group-item[% " active" IF action == "signoff" %]' href="[% path_cgi %]/signoff/[% list %]" onclick="request_confirm_link('[% path_cgi %]/signoff/[% list %]', '[% FILTER escape_quote %][%|loc(list)%]Do you really want to unsubscribe from list %1?[%END%][%END%]'); return false;">[%|loc%]Unsubscribe[%END%]</a>
+  [% END %]
+[% ELSE %]
+  [% IF may_subscribe %]
+  <a  class='list-group-item[% " active" IF action == "subrequest" %]' href="[% path_cgi %]/subscribe/[% list %]" [% IF listconf.custom_attribute.size == 0 %]onclick="request_confirm_link('[% path_cgi %]/subscribe/[% list %]', '[% FILTER escape_quote %][%|loc(list)%]Do you really want to subscribe to list %1?[%END%][%END%]'); return false;"[% END %]>[%|loc%]Subscribe[%END%]</a>
+  [% END %]
+  [% IF ! user.email %]
+  <a class='list-group-item[% " active" IF action == "signoff" %]' href="[% path_cgi %]/sigrequest/[% list %]">[%|loc%]Unsubscribe[%END%]</a>
+  [% END %]
+[% END %]
+  <a class='list-group-item[% " active" IF action == "info" %]' href="[% path_cgi %]/info/[% list %]">[%|loc%]Info[%END%]</a>
+  <a class='list-group-item[% " active" IF action == "admin" || action_type == "admin" %]' href="[% path_cgi %]/admin/[% list %]">[%|loc%]Admin[%END%]</a>
+[% IF is_owner ||  is_editor %]
+  [% IF is_editor %]
+  <a class='list-group-item[% " active" IF action == "modindex" %]' href="[% path_cgi %]/modindex/[% list %]">[%|loc%]Moderate[%END%] - [%|loc%]Message[%END%]<span class='label label-[% IF mod_message == 0 %]default[% ELSE %]danger[% END %] pull-right'>[% mod_message %]</span></a> 
+  <a  class='list-group-item[% " active" IF action == "modindex" %]' href="[% path_cgi %]/modindex/[% list %]">[%|loc%]Moderate[%END%] - [%|loc%]Document[%END%]<span class='label label-[% IF mod_total_shared == 0 %]default[% ELSE %]danger[% END %] pull-right'>[% mod_total_shared %]</span></a>
+  [% END %]
+  [% IF is_owner %]     
+	<a class='list-group-item[% " active" IF action == "subindex" %]' href="[% path_cgi %]/subindex/[% list %]">[%|loc%]Moderate[%END%] - [%|loc%]Subscriptions[%END%]<span class='label label-[% IF mod_subscription == 0 %]default[% ELSE %]danger[% END %] pull-right'>[% mod_subscription %]</span></a>
+  [% END %]
+[% END %]
+[% IF is_archived %]
+  [% IF arc_access %]
+  <a class='list-group-item[% " active" IF action == "arc" || action == "arcsearch_form" || action == "arcsearch" ||  action == "arc_protect" %]' href="[% path_cgi %]/arc/[% list %]" >[%|loc%]Archive[%END%]</a>
+  [% ELSE %]
+  <a class="list-group-item disabled">[%|loc%]Archive[%END%] <span class='badge'><span class='glyphicon glyphicon-lock'></span></span></a>
+  [% END %]
+[% END %]
+[% IF may_post %]
+  <a class='list-group-item[% " active" IF action == "compose_mail" %]' href="[% path_cgi %]/compose_mail/[% list %]" >[%|loc%]Post[%END%]</a>
+[% ELSE %]
+  <a class="list-group-item disabled">[%|loc%]Post[%END%] <span class='badge'><span class='glyphicon glyphicon-lock'></span></span></a>
+[% END %]
+  <a class='list-group-item[% " active" IF action == "rss_request" %]' href="[% path_cgi %]/rss_request/[% list %]" >[%|loc%]RSS[%END%]</a>
+[% IF shared == 'exist' %]
+  [% IF may_d_read %]    
+  <a class='list-group-item[% " active" IF action == "d_read" || action == "d_edit" || action == "d_properties" %]' href="[% path_cgi %]/d_read/[% list %]/" >[%|loc%]Shared documents[%END%]</a>
+  [% ELSE %]
+  <a class="list-group-item disabled">[%|loc%]Shared documents[%END%] <span class='badge'><span class='glyphicon glyphicon-lock'></span></span></a>
+  [% END %]
+[% END %]
+[% IF may_review %]
+  <a class='list-group-item[% " active" IF action == "review" %]' href="[% path_cgi %]/review/[% list %]">[%|loc%]Review members[%END%]</a>
+[% END %]
+</div>
+<!-- end list_menu.tt2 -->

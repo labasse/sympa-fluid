@@ -1,0 +1,48 @@
+<!-- $Id: list_panel.tt2 sl $ -->
+[% IF list_status == 'closed' || list_status == 'family_closed' %]
+<div class='list-group-item'><span class="label label-danger">[%|loc%]Closed list[%END%]</span></div>
+[% ELSIF list_status == 'pending' %]
+<div class='list-group-item'><span class="label label-danger">[%|loc%]List not yet activated[%END%]</span></div>
+[% ELSIF list_status == 'error_config' %]
+<div class='list-group-item'><span class="label label-danger">[%|loc%]Erroneous configuration[%END%]</span></div>
+[% END %]
+<div class='list-group-item'>
+  [%|loc%]Subscribers[%END%] <span class='badge'>[% total %]</span>
+[% IF is_priv %]
+  <br/>([%|loc%]Error rate:[%END%] <span class='badge'>[% bounce_rate %]%</span>)
+[% END %]      
+</div>
+<div class='list-group-item'>
+  <ul class='list-unstyled'>
+    <li><a data-toggle="collapse" href="#collapseOwners">[%|loc%]Owners[%END%] <span class='caret'></span></a></li>
+    <li class="collapse" id="collapseOwners">
+[% SET sep = '' %]
+[% FOREACH o = owner %]
+  [% IF o.value.visibility != 'conceal' %]
+    [% sep %][% IF o.value.gecos %][% o.value.gecos %][% ELSE %][% o.value.local %][% END %]
+    [% SET sep = ',' %]
+  [% END %]
+[% END %]
+    </li>
+[% IF editor %]
+    <li><a data-toggle="collapse" href="#collapseModerators">[%|loc%]Moderators[%END%] <span class='caret'></span></a></li>
+    <li class="collapse" id="collapseModerators">
+  [% SET sep = '' %]
+  [% FOREACH e = editor %]
+    [% IF e.value.visibility != 'conceal' %]
+      [% sep %][% IF o.value.gecos %][% o.value.gecos %][% ELSE %][% o.value.local %][% END %]
+      [% SET sep = ',' %]
+    [% END %]
+  [% END %]
+    </li>
+[% END %]        
+  </ul>
+</div>
+[% IF list_as_x509_cert %]
+<a class='list-group-item' href="[% path_cgi %]/load_cert/[% list %]">[%|loc%]Load certificate[%END%]</a>[% END %]
+[% IF protection_type == 'javascript' %]
+[% hidden_head %]<a class='list-group-item' href=\"mailto:[% list %]-request[% hidden_at %][% domain %]\">[%|loc%]Contact owners[%END%]<\/a>[% hidden_end %]
+[% ELSE %]
+<a class='list-group-item' href="mailto:[% hidden_head %][% list %]-request[% hidden_at %][% domain %][% hidden_end %]">[%|loc%]Contact owners[%END%]</a>
+[% END %]      
+<!-- end list_panel.tt2 -->

@@ -1,0 +1,44 @@
+<!-- $Id: login_menu.tt2 sl $ -->     
+[% IF user.email %]
+<li class="dropdown" id="menuLogin">
+  <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLogin" aria-label='User'><span class='glyphicon glyphicon-user hidden-xs' aria-hidden="true"></span><span class='visible-xs-inline'>User</span><span class="caret"></span></a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+      <li class='dropdown-header'>
+  [% user.email %]<br/>
+  [% IF is_listmaster %][%|loc%]Listmaster[%END%]
+  [% ELSIF is_privileged_owner %][%|loc%]Privileged owner[%END%]
+  [% ELSIF is_owner %][%|loc%]Owner[%END%]
+  [% ELSIF is_editor %][%|loc%]Editor[%END%]
+  [% ELSIF is_subscriber %][%|loc%]Subscriber[%END%]
+  [% END %]
+  [% IF last_login_date %]
+    <br />[%|loc(last_login_host)%]last login from %1[%END%] ([% last_login_date %])
+  [%END%]
+  [% IF restore_email %]
+      <li>
+        <a href='javascript:document.loginMenu_restoreEmail.submit()'>[%|loc%]Restore identity[%END%]</a>
+        <form name='loginMenu_restoreEmail' action="[% path_cgi %]" method="post"><input type="hidden" name="action_restore_email" value="[%|loc%]Restore identity[%END%]" /></form>
+      </li>
+  [%END%]
+      <li class="divider"></li>
+      <li><a href="[% path_cgi %]/pref" >[%|loc%]Your preferences[%END%]</a></li>
+  [% IF auth_method == 'md5' %]
+      <li class="divider"></li>
+      <li>
+        <a href='javascript:document.loginMenu_logout.submit()'>[%|loc%]Logout[%END%]</a>
+        <form  action="[% path_cgi %]" method="post" name='loginMenu_logout'>
+          <input type="hidden" name="action" value="logout" />
+    [% IF referer %]
+          <input type="hidden" name="referer" value="[% referer %]" />
+    [% ELSE %]
+          <input type="hidden" name="previous_action" value="[% home %]" />
+    [% END %]
+          <input type="hidden" name="action_logout" value="[%|loc%]Logout[%END%]" />
+        </form>
+      </li>
+  [% END %]
+    </ul>
+</li>
+[% END %]
+[% ## loginbanner.tt2 is in sidebar %]
+<!-- end login_menu.tt2 -->

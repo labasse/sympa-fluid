@@ -1,0 +1,11 @@
+<!-- $Id: title.tt2 sl $ -->
+<!-- begin title.tt2 -->
+<a class="navbar-brand" href="[% path_cgi %]/home">
+[% IF  conf.logo_html_definition %]
+	[% conf.logo_html_definition %]
+[% ELSE %]
+	<img src="[% icons_url %]/logo_sympa.png" alt="SYMPA logo" style='height:70px;margin-top:-10px' title='[% robot_title %]'>
+[% END %]	
+</a>
+<!-- end title.tt2 -->
+

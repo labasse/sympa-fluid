@@ -1,0 +1,16 @@
+<!-- $Id: menu_search.tt2 sl $ -->
+<li>
+  <form class="navbar-form" role="search" action="[% path_cgi %]" onsubmit="return isNotEmpty('filter')" method="post">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="[%|loc%]Enter a list name[%END%]" name="filter" id="filter" value="[% filter %]">
+      <input type="hidden" name="action" value="search_list" />
+      <input type="hidden" name="action_search_list" value="[%|loc%]Search lists[%END%]" />
+        <div class="input-group-btn">
+           <button class="btn btn-default" type='submit'>
+           <span class="glyphicon glyphicon-search"></span>
+           </button>
+       </div>
+    </div>
+  </form>
+</li>
+<!-- end menu_search.tt2 -->

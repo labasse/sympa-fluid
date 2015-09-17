@@ -1,0 +1,9 @@
+<!-- $Id: footer.tt2 sl $ -->
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse">
+      <p class="navbar-text"><img src="[% icons_url %]/favicon_sympa.png" width="20px" height="20px"/>  <a href="http://www.sympa.org"> Powered by Sympa </a></p>
+    </div>
+  </div>
+</nav>
+<!-- end footer.tt2 -->
